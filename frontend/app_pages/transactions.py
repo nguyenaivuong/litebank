@@ -4,16 +4,16 @@ import pandas as pd
 def show():
     # Sample user information
     user_info = {
-        'AccountHolder': 'John Doe',
-        'AccountNumber': '1234567890',
+        'AccountHolder': 'NGUYEN AI VUONG',
+        'AccountNumber': '85810854',
         'CurrentBalance': 1500
     }
 
     # Sample user list for demonstrating transfer
     user_list = {
-        'John Doe': '1234567890',
-        'Jane Doe': '0987654321',
-        'Bob Smith': '5678901234'
+        'Alice Kim': '79450854',
+        'Jane Doe':  '87654321',
+        'Bob Smith': '56789012'
     }
 
     # Button to add a new recipient

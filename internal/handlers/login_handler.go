@@ -33,10 +33,10 @@ func (c *LoginHandler) LoginHandler(ctx *gin.Context) {
 	// Login user
 	token, err := c.loginService.Login(req.Username, req.Password)
 	if err != nil {
-		ctx.JSON(401, gin.H{"message": "Invalid username or password."})
+		ctx.JSON(401, gin.H{"error": "Invalid username or password."})
 		return
 	}
 
 	// Return success response with token
-	ctx.JSON(200, gin.H{"message": "Login successful.", "token": token})
+	ctx.JSON(200, gin.H{"error": "Login successful.", "token": token})
 }

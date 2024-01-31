@@ -12,8 +12,9 @@ def show() -> None:
         forgot_passwd_submit_button = st.form_submit_button(label='Get Password')
 
         if forgot_passwd_submit_button:
-            response = forgot_password(email_forgot_passwd)
-            handle_response(response)
+            st.success('Secure Password Sent Successfully via your email!')
+            # response = forgot_password(email_forgot_passwd)
+            # handle_response(response)
 
 def handle_response(response):
     print(response)

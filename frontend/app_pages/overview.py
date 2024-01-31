@@ -6,18 +6,18 @@ from datetime import datetime
 def show():
     # Sample user and financial information
     user_info = {
-        'CardNumber': '1234-5678-9012-3456',
-        'AccountHolder': 'John Doe',
-        'TotalBalance': 1800,
-        'TotalIncome': 1000,
-        'TotalExpense': 500
+        'CardNumber': '85810854',
+        'AccountHolder': 'NGUYEN AI VUONG',
+        'TotalBalance': 300,
+        'TotalIncome': 400,
+        'TotalExpense': 100
     }
 
     # Sample data for demonstration purposes
     transactions_data = {
-        'Name': ['Transaction 1', 'Transaction 2', 'Transaction 3', 'Transaction 4', 'Transaction 5', 'Transaction 6', 'Transaction 7'],
+        'Name': ['Alice', 'Bob', 'Hana', 'John', 'Alice', 'John', 'Alice'],
         'Category': ['Groceries', 'Entertainment', 'Utilities', 'Dining', 'Dining', 'Entertainment', 'Utilities'],
-        'Date': ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-04','2022-01-04', '2022-01-04'],
+        'Date': ['2022-01-04', '2022-01-04', '2022-01-04', '2022-01-03', '2022-01-02','2022-01-02', '2022-01-01'],
         'Amount': [100, -50, 150, -20, 100, -30, 50],
         'Type': ['Income', 'Outcome', 'Income', 'Outcome', 'Income', 'Outcome', 'Income']
     }
@@ -38,7 +38,7 @@ def show():
         st.warning('No transactions to display.')
 
     overview(user_info)
-    transaction_table(df_transactions)
+    transaction_table_with_pagination(df_transactions)
     statistics_graph(df_transactions, balances)
 
 
@@ -63,9 +63,9 @@ def overview(user_info):
         )
 
     financial_info = {
-        'TotalBalance': 1800,
-        'TotalIncome': 1000,
-        'TotalExpense': 500
+        'TotalBalance': 300,
+        'TotalIncome': 400,
+        'TotalExpense': 100
     }
 
     # Right column for financial information
@@ -122,7 +122,7 @@ def statistics_graph(df_transactions, balances):
     if show_balance:
         chart_option = st.selectbox('Select Chart Option', ['Category', 'Date'])
         if chart_option == 'Category':
-            filtered_transactions = df_transactions.groupby(('Date', 'Category')).agg({'Amount': 'sum'}).reset_index()
+            filtered_transactions = df_transactions.groupby(['Date', 'Category']).agg({'Amount': 'sum'}).reset_index()
             fig = px.bar(
                 filtered_transactions,
                 x='Date',
@@ -199,3 +199,38 @@ def calculate_daily_balance(df_transactions, start_date, end_date):
     filtered_transactions = filtered_transactions[(filtered_transactions['Date'] >= start_date.strftime('%Y-%m-%d')) & (filtered_transactions['Date'] <= end_date.strftime('%Y-%m-%d'))]
 
     return filtered_transactions
+
+def transaction_table_with_pagination(df_transactions, page_size=5):
+    # Add space between titles
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    # Main content
+    st.title('Recent Transactions')
+
+    # Recent Transactions table with search input at the top-right corner
+    search_query = st.text_input('', key='search_transactions', max_chars=20, help='Input a name', placeholder='🔍 Search Transactions by name')
+
+    # Filter transactions based on the search query
+    filtered_transactions = df_transactions[df_transactions['Name'].str.contains(search_query, case=False)]
+
+    # Calculate the number of pages
+    num_pages = len(filtered_transactions) // page_size + (len(filtered_transactions) % page_size > 0)
+
+    # Sidebar for page selection
+    page_number = 1
+
+    # Add next and previous page buttons with appropriate styling
+    col1, col2 = st.columns([6, 1])
+    with col1:
+        if col1.button('Previous Page', key='prev_page', help='Go to the previous page') and page_number > 1:
+            page_number -= 1
+
+    with col2:
+        if col2.button('Next Page', key='next_page', help='Go to the next page') and page_number < num_pages:
+            page_number += 1
+
+    # Calculate the start and end indices for the selected page
+    start_idx = (page_number - 1) * page_size
+    end_idx = min(start_idx + page_size, len(filtered_transactions))
+
+    # Display the selected page of data
+    st.table(filtered_transactions[['Name', 'Category', 'Date', 'Amount', 'Type']][start_idx:end_idx])

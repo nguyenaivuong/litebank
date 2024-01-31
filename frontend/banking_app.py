@@ -1,7 +1,5 @@
-# online_banking_app.py
-
 import streamlit as st
-from app_pages import forgot_password, login, overview, signup, account_balance, transactions, account_settings
+from app_pages import forgot_password, login, overview, signup, account_balance, transactions
 from components.sidebar import nav_sidebar
 
 def logout_widget() -> None:
@@ -37,7 +35,7 @@ def main():
         elif selected_option == 'Create Account':
             signup.show()
         elif selected_option == 'Forgot Password?':
-            st.write('Forgot Password?')
+            forgot_password.show()
         else:
             st.write('Choose an option from the sidebar')
 
@@ -46,7 +44,7 @@ def main():
         logout_widget()
         st.sidebar.title("Lite Bank")
 
-        options = ["Overview", "Transactions", "Change Password"]
+        options = ["Overview", "Credit Transfer", "Change Password"]
         icons=['house', 'currency-dollar', 'gear']
         _, selected_option = nav_sidebar(options, menu_title="Lite Bank", icons=icons)
 
@@ -57,7 +55,7 @@ def main():
         elif selected_option == "Account Balance":
             account_balance.show()
 
-        elif selected_option == "Transactions":
+        elif selected_option == "Credit Transfer":
             transactions.show()
 
         elif selected_option == "Change Password":

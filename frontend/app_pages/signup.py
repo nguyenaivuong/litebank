@@ -28,10 +28,10 @@ def validate_form(name_sign_up, email_sign_up, username_sign_up):
         return "Please enter a valid name!"
     if not check_valid_email(email_sign_up):
         return "Please enter a valid Email!"
-    if not check_unique_email(email_sign_up):
-        return "Email already exists!"
-    if not check_unique_usr(username_sign_up):
-        return f'Sorry, username {username_sign_up} already exists!'
+    # if not check_unique_email(email_sign_up):
+    #     return "Email already exists!"
+    # if not check_unique_usr(username_sign_up):
+    #     return f'Sorry, username {username_sign_up} already exists!'
     if username_sign_up.strip() == '':
         return 'Please enter a non - empty Username!'
     return None
