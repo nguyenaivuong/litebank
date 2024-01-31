@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  litebank-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: litebank-app
+    ports:
+      - "8501:8501"
+    command: streamlit run frontend/banking_app.py
+    restart: unless-stopped
+    network_mode: bridge

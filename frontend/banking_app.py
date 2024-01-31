@@ -1,7 +1,7 @@
 # online_banking_app.py
 
 import streamlit as st
-from pages import forgot_password, login, overview, signup, account_balance, transactions, account_settings
+from app_pages import forgot_password, login, overview, signup, account_balance, transactions, account_settings
 from components.sidebar import nav_sidebar
 
 def logout_widget() -> None:
